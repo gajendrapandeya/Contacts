@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.codermonkeys.contacts.fragments.ViewContactFragment;
+import com.codermonkeys.contacts.utils.UniversalImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        initImageLoader();
         init();
     }
 
@@ -32,5 +35,10 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    private void initImageLoader() {
+        UniversalImageLoader imageLoader = new UniversalImageLoader(this);
+        ImageLoader.getInstance().init(imageLoader.getConfig());
     }
 }
