@@ -6,7 +6,7 @@ public class Contacts {
     private String phoneNumber;
     private String device;
     private String email;
-    private String profileImage;
+    private String profileImage;//location in the device is stored
 
     public Contacts(String name, String phoneNumber, String device, String email, String profileImage) {
         this.name = name;
