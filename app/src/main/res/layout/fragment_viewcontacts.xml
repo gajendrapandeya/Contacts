@@ -16,6 +16,7 @@
             tools:ignore="UselessParent">
 
             <include layout="@layout/snippet_view_contacts_toolbar" />
+            <include layout="@layout/snippet_search_toolbar"/>
 
         </RelativeLayout>
 
