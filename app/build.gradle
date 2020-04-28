@@ -34,4 +34,10 @@ dependencies {
 
     //design support library
     implementation 'com.google.android.material:material:1.1.0'
+
+    //universal Image Loader lib
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
+    //Circular image lib
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }
