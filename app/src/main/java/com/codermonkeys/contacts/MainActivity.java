@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
+    //initialize the first fragment (ViewContactFragment)
     private void init() {
 
         ViewContactFragment fragment = new ViewContactFragment();

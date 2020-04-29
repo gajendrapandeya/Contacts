@@ -6,4 +6,11 @@
     <string name="back_arrow">Back Arrow</string>
     <string name="contact_name">Contact Name</string>
     <string name="edit">Edit</string>
+    <string name="sample_text">Sample Text</string>
+
+    <!--Fragments Name-->
+    <string name="edit_contact_fragment">EditContactFragment</string>
+    <string name="contact_fragment">ContactFragment</string>
+
+
 </resources>
