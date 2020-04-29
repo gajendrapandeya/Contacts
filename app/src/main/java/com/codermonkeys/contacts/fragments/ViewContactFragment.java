@@ -27,7 +27,10 @@ import java.util.Objects;
 
 public class ViewContactFragment extends Fragment {
 
+    //static Strings
     private static final String TAG = "ViewContactFragment";
+
+
     //Ui Component
     private AppBarLayout viewContactsBar, searchBar;
     private ListView contactList;
@@ -40,6 +43,13 @@ public class ViewContactFragment extends Fragment {
 
     private String testImageURL = "tse3.mm.bing.net/th?id=OIP.ghrb7on_QV8B6DP0S34KxQHaEc&pid=Api&P=0&w=297&h=179";
     private CustomListAdapter mListAdapter;
+
+    //Interface
+    public interface onContactSelectedListner {
+        public void onContactSelected(Contacts contacts);
+    }
+
+    onContactSelectedListner mContactListner;
 
     @Nullable
     @Override
@@ -134,6 +144,19 @@ public class ViewContactFragment extends Fragment {
         setAppBarState(STANDARD_APPBAR);
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        try{
+
+            mContactListner = (onContactSelectedListner) getActivity();
+
+        } catch (ClassCastException e) {
+            Log.e(TAG, "onAttach: ClassCastException"+ e.getMessage() );
+        }
+    }
+
     private void setupContacts() {
         final ArrayList<Contacts> contacts = new ArrayList<>();
         contacts.add(new Contacts("Gajendra Pandeya", "(977)9812610150", "mobile", "gajendrapandeya6@gmail.com", testImageURL));
@@ -159,14 +182,9 @@ public class ViewContactFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onClick: ");
 
-                ContactFragment fragment = new ContactFragment();
+                //pass the contact to interface and send it to MainActivity
+                mContactListner.onContactSelected(contacts.get(position));
 
-                FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                //replace whatever is in the fragment container view with this fragment
-                //and add the transaction to the back stack so that the user can navigate back
-                transaction.replace(R.id.fragment_container, fragment);
-                transaction.addToBackStack(getResources().getString(R.string.edit_contact_fragment));
-                transaction.commit();
             }
         });
     }

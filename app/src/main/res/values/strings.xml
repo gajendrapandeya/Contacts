@@ -11,6 +11,7 @@
     <!--Fragments Name-->
     <string name="edit_contact_fragment">EditContactFragment</string>
     <string name="contact_fragment">ContactFragment</string>
+    <string name="view_contact_fragment">ViewContactFragment</string>
 
 
 </resources>

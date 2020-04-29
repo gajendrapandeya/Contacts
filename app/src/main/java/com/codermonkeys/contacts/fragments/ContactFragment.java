@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,15 +19,31 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.codermonkeys.contacts.R;
+import com.codermonkeys.contacts.models.Contacts;
+import com.codermonkeys.contacts.utils.UniversalImageLoader;
 
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class ContactFragment extends Fragment {
 
+
+    //This will evade the null pointer exception when adding to a new bundle from MainActivity
+    public ContactFragment() {
+        super();
+        setArguments(new Bundle());
+    }
+
     //widgets
     private Toolbar toolbar;
+    private TextView mContactName;
+    private CircleImageView mContactImage;
+
+    //vars
+    private Contacts mContact;
 
     @Nullable
     @Override
@@ -34,9 +51,14 @@ public class ContactFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
         toolbar = view.findViewById(R.id.contact_toolbar);
+        mContact  = getContactFromBundle();
+        mContactImage = view.findViewById(R.id.contactImage);
+        mContactName = view.findViewById(R.id.tvName);
 
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
+
+        init();
 
         //navigation for the back arrow
         ImageView ivBackArrow = view.findViewById(R.id.image_view_contact_back_arrow);
@@ -56,18 +78,16 @@ public class ContactFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                EditContactFragment fragment = new EditContactFragment();
-
-                FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                //replace whatever is in the fragment container view with this fragment
-                //and add the transaction to the back stack so that the user can navigate back
-                transaction.replace(R.id.fragment_container, fragment);
-                transaction.addToBackStack(getResources().getString(R.string.edit_contact_fragment));
-                transaction.commit();
             }
         });
 
         return view;
+    }
+
+    private void init() {
+        mContactName.setText(mContact.getName());
+
+        UniversalImageLoader.setImage(mContact.getProfileImage(), mContactImage, null, "https://");
     }
 
     @Override
@@ -82,5 +102,15 @@ public class ContactFragment extends Fragment {
             Log.d("ContactFragment", "onOptionsItemSelected: deleted");
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private Contacts getContactFromBundle() {
+
+        Bundle bundle = this.getArguments();
+        if(bundle != null) {
+            return  bundle.getParcelable("Contact");
+        } else {
+            return null;
+        }
     }
 }

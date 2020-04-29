@@ -1,6 +1,9 @@
 package com.codermonkeys.contacts.models;
 
-public class Contacts {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Contacts implements Parcelable {
 
     private String name;
     private String phoneNumber;
@@ -15,6 +18,26 @@ public class Contacts {
         this.email = email;
         this.profileImage = profileImage;
     }
+
+    protected Contacts(Parcel in) {
+        name = in.readString();
+        phoneNumber = in.readString();
+        device = in.readString();
+        email = in.readString();
+        profileImage = in.readString();
+    }
+
+    public static final Creator<Contacts> CREATOR = new Creator<Contacts>() {
+        @Override
+        public Contacts createFromParcel(Parcel in) {
+            return new Contacts(in);
+        }
+
+        @Override
+        public Contacts[] newArray(int size) {
+            return new Contacts[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -65,5 +88,19 @@ public class Contacts {
                 ", email='" + email + '\'' +
                 ", profileImage='" + profileImage + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(phoneNumber);
+        dest.writeString(device);
+        dest.writeString(email);
+        dest.writeString(profileImage);
     }
 }
